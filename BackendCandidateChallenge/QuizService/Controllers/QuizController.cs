@@ -13,6 +13,8 @@ namespace QuizService.Controllers;
 [Route("api/quizzes")]
 public class QuizController : Controller
 {
+    //ToDo : We can definetlly move the logic for all methods in Controller in Serice class, simillar for GET method.
+    //ToDo: Since we use IDbConnection we can also remove from here and move to Service class.
     private readonly IDbConnection _connection;
     private readonly IQuizeService _quizService;
 

@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using QuizService.Model;
 using QuizService.Model.Domain;
 using System.Linq;
+using QuizService.Services;
+using System.Threading.Tasks;
 
 namespace QuizService.Controllers;
 
@@ -12,24 +14,19 @@ namespace QuizService.Controllers;
 public class QuizController : Controller
 {
     private readonly IDbConnection _connection;
+    private readonly IQuizeService _quizService;
 
-    public QuizController(IDbConnection connection)
+    public QuizController(IDbConnection connection, IQuizeService quizService)
     {
         _connection = connection;
+        _quizService = quizService; 
     }
 
     // GET api/quizzes
     [HttpGet]
-    public IEnumerable<QuizResponseModel> Get()
+    public async Task<List<QuizResponseModel>> Get()
     {
-        const string sql = "SELECT * FROM Quiz;";
-        var quizzes = _connection.Query<Quiz>(sql);
-        return quizzes.Select(quiz =>
-            new QuizResponseModel
-            {
-                Id = quiz.Id,
-                Title = quiz.Title
-            });
+        return await _quizService.GetAllAsync();
     }
 
     // GET api/quizzes/5

@@ -17,11 +17,12 @@ namespace QuizService.Services
         {
             _connection = connection;
         }
-        public Task<List<QuizResponseModel>> GetAllAsync()
+
+        public IEnumerable<QuizResponseModel> GetAll()
         {
             const string sql = "SELECT * FROM Quiz;";
             var quizzes = _connection.Query<Quiz>(sql);
-            return (Task<List<QuizResponseModel>>)quizzes.Select(quiz =>
+            return quizzes.Select(quiz =>
                 new QuizResponseModel
                 {
                     Id = quiz.Id,
@@ -29,7 +30,6 @@ namespace QuizService.Services
                 });
         }
 
-        //Todo: I see here, we have a lot of constant (const), so I would move this constant in separate class and call it here ! 
         public async Task<QuizResponseModel> GetAsyncById(int id)
         {
             try
@@ -71,9 +71,9 @@ namespace QuizService.Services
             }
                 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
     }

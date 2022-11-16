@@ -7,6 +7,7 @@ using QuizService.Model.Domain;
 using System.Linq;
 using QuizService.Services;
 using System.Threading.Tasks;
+using System;
 
 namespace QuizService.Controllers;
 
@@ -27,16 +28,20 @@ public class QuizController : Controller
 
     // GET api/quizzes
     [HttpGet]
-    public async Task<List<QuizResponseModel>> Get()
+    public IEnumerable<QuizResponseModel> GetAll()
     {
-        return await _quizService.GetAllAsync();
+        return _quizService.GetAll();
     }
+
 
     // GET api/quizzes/5
     [HttpGet("{id}")]
-    public async Task<QuizResponseModel> GetAsyncById(int id)
+    public async Task<ActionResult<QuizResponseModel>> GetById(int id)
     {
-        return await _quizService.GetAsyncById(id);
+        var response = _quizService.GetAsyncById(id);
+        if(response == null)
+            return NotFound();
+        return Ok(response);
     }
 
     // POST api/quizzes

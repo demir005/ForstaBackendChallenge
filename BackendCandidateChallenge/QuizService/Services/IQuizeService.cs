@@ -4,14 +4,11 @@ using System.Threading.Tasks;
 
 namespace QuizService.Services
 {
-      /*
-       This interface is used for define GET methods.
-       This arhitecture is most common used
-     */
+    /******************* This interface is used for define GET methods. *****************************/
     public interface IQuizeService
     {
-        Task<List<QuizResponseModel>> GetAllAsync();
+        public IEnumerable<QuizResponseModel> GetAll();
 
-        Task<QuizResponseModel> GetAsyncById(int id);
+        public Task<QuizResponseModel> GetAsyncById(int id);
     }
 }
